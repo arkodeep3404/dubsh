@@ -41,7 +41,7 @@ router.get("/me", authMiddleware, async (req, res) => {
     },
   });
 });
-
+ 
 const signupBody = zod.object({
   email: zod.string().email(),
   firstName: zod.string(),

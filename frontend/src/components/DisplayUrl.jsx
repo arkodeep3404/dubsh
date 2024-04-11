@@ -1,13 +1,11 @@
 import { useRecoilState } from "recoil";
 import { urlAtom } from "../store/url";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 export default function DisplayUrl() {
   const [UrlList, setUrlList] = useRecoilState(urlAtom);
   const [Filter, setFilter] = useState("");
-  const navigate = useNavigate();
 
   useEffect(() => {
     async function firstFetch() {

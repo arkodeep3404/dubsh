@@ -23,6 +23,12 @@ router.get("/urls", authMiddleware, async (req, res) => {
       },
     ],
   });
+
+  if (urls) {
+    res.status(200).json({
+      urls: urls,
+    });
+  }
 });
 
 router.get("/url/:customUrl", authMiddleware, async (req, res) => {
