@@ -23,10 +23,22 @@ router.get("/urls", authMiddleware, async (req, res) => {
       },
     ],
   });
+});
 
-  res.status(200).json({
-    urls: urls,
+router.get("/url/:customUrl", authMiddleware, async (req, res) => {
+  const userId = req.userId;
+  const customUrl = req.params.customUrl;
+
+  const url = await Url.find({
+    userId: userId,
+    customUrl: customUrl,
   });
+
+  if (url) {
+    res.status(200).json({
+      url: url,
+    });
+  }
 });
 
 const urlBody = zod.object({
