@@ -1,10 +1,8 @@
 import { useState } from "react";
-import { useRecoilState } from "recoil";
-import { urlAtom } from "../store/url";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-export default function addUrl() {
+export default function AddUrl() {
   const [OriginalUrl, setOriginalUrl] = useState("");
   const [CustomUrl, setCustomUrl] = useState("");
   const navigate = useNavigate();

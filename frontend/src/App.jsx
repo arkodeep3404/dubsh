@@ -12,6 +12,7 @@ import Update from "./pages/update";
 import Test from "./pages/test";
 import Error from "./pages/error";
 import Analytics from "./pages/analytics";
+import Collect from "./pages/collect";
 
 export default function App() {
   return (
@@ -28,6 +29,7 @@ export default function App() {
           <Route path="/analytics/:customUrl" element={<Analytics />} />
           <Route path="/resend" element={<Resend />} />
           <Route path="/update" element={<Update />} />
+          <Route path="/collect/:customUrl" element={<Collect />} />
           <Route path="/test" element={<Test />} />
           <Route path="*" element={<Error />} />
         </Routes>

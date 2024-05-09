@@ -9,7 +9,7 @@ import { useState } from "react";
 import useUser from "../hooks/useUser";
 
 export default function Reset() {
-  const [password, setPasssword] = useState("");
+  const [Password, setPasssword] = useState("");
   const [Error, setError] = useState(false);
   const user = useUser();
   const { token } = useParams();
@@ -32,7 +32,7 @@ export default function Reset() {
       const response = await axios.put(
         import.meta.env.VITE_BACKEND_URL + `api/v1/user/reset/${token}`,
         {
-          password,
+          Password,
         }
       );
       alert("Reset successful");

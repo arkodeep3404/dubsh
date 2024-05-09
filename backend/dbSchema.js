@@ -38,6 +38,19 @@ const urlSchema = new schema(
         },
       },
     ],
+    contactDetails: [
+      {
+        name: {
+          type: String,
+        },
+        email: {
+          type: String,
+        },
+        phoneNumber: {
+          type: Number,
+        },
+      },
+    ],
   },
   {
     timestamps: true,

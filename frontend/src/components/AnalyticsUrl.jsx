@@ -3,9 +3,11 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 
 export default function Analytics() {
+  const [UrlDetails, setUrlDetails] = useState([]);
   const [TotalVisitors, setTotalVisitors] = useState(0);
   const [VisitorDetails, setVisitorDetails] = useState([]);
-  const [UrlDetails, setUrlDetails] = useState([]);
+  const [ContactDetails, setContactDetails] = useState([]);
+  const [TotalContacts, setTotalContacts] = useState(0);
   const { customUrl } = useParams();
 
   useEffect(() => {
@@ -37,6 +39,8 @@ export default function Analytics() {
       );
       setTotalVisitors(response.data.totalVisitors);
       setVisitorDetails(response.data.visitorDetails);
+      setTotalContacts(response.data.totalContacts);
+      setContactDetails(response.data.contactDetails);
     }
     firstFetch();
   }, []);
@@ -55,12 +59,14 @@ export default function Analytics() {
       );
       setTotalVisitors(response.data.totalVisitors);
       setVisitorDetails(response.data.visitorDetails);
+      setTotalContacts(response.data.totalContacts);
+      setContactDetails(response.data.contactDetails);
     }, 1000);
 
     return () => {
       clearTimeout(timeoutValue);
     };
-  }, [TotalVisitors, VisitorDetails]);
+  }, [TotalVisitors, VisitorDetails, ContactDetails, TotalContacts]);
 
   return (
     <div>
@@ -87,6 +93,25 @@ export default function Analytics() {
           </div>
           <div className="w-auto m-3 peer h-full rounded-[7px] border border-blue-gray-200 bg-transparent px-3 py-2.5 font-sans text-sm font-normal text-blue-gray-700 outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 focus:border-2 focus:border-pink-500 focus:border-t-transparent focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50">
             Timestamp : {new Date(visitors.timestamp).toLocaleString()}
+          </div>
+        </div>
+      ))}
+      <div className="w-auto m-3 peer h-full rounded-[7px] border border-blue-gray-200 bg-transparent px-3 py-2.5 font-sans text-sm font-normal text-blue-gray-700 outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 focus:border-2 focus:border-pink-500 focus:border-t-transparent focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50">
+        Total Contacts : {TotalContacts}
+      </div>
+      <div className="w-auto m-3 peer h-full rounded-[7px] border border-blue-gray-200 bg-transparent px-3 py-2.5 font-sans text-sm font-normal text-blue-gray-700 outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 focus:border-2 focus:border-pink-500 focus:border-t-transparent focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50">
+        Contact Details :
+      </div>
+      {ContactDetails.map((contact) => (
+        <div className="flex">
+          <div className="w-auto m-3 peer h-full rounded-[7px] border border-blue-gray-200 bg-transparent px-3 py-2.5 font-sans text-sm font-normal text-blue-gray-700 outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 focus:border-2 focus:border-pink-500 focus:border-t-transparent focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50">
+            Name : {contact.name}
+          </div>
+          <div className="w-auto m-3 peer h-full rounded-[7px] border border-blue-gray-200 bg-transparent px-3 py-2.5 font-sans text-sm font-normal text-blue-gray-700 outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 focus:border-2 focus:border-pink-500 focus:border-t-transparent focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50">
+            Email : {contact.email}
+          </div>
+          <div className="w-auto m-3 peer h-full rounded-[7px] border border-blue-gray-200 bg-transparent px-3 py-2.5 font-sans text-sm font-normal text-blue-gray-700 outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 focus:border-2 focus:border-pink-500 focus:border-t-transparent focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50">
+            Phone Number : {contact.phoneNumber}
           </div>
         </div>
       ))}

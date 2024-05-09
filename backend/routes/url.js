@@ -44,6 +44,10 @@ router.get("/url/:customUrl", authMiddleware, async (req, res) => {
     res.status(200).json({
       url: url,
     });
+  } else {
+    res.status(404).json({
+      message: "incorrect custom url",
+    });
   }
 });
 
@@ -152,7 +156,7 @@ router.delete("/url", authMiddleware, async (req, res) => {
       message: "entry deleted",
     });
   } else {
-    res.status(200).json({
+    res.status(400).json({
       message: "incorrect id",
     });
   }
@@ -175,7 +179,25 @@ router.get("/redirect/:customUrl", async (req, res) => {
   );
 
   if (url) {
-    res.redirect(url.originalUrl);
+    res.redirect(process.env.FRONTEND_URL + "collect/" + url.customUrl);
+  } else {
+    res.status(404).json({
+      message: "incorrect custom url",
+    });
+  }
+});
+
+router.get("/origin/:customUrl", async (req, res) => {
+  const customUrl = req.params.customUrl;
+
+  const url = await Url.findOne({
+    customUrl: customUrl,
+  });
+
+  if (url) {
+    res.status(200).json({
+      url: url.originalUrl,
+    });
   } else {
     res.status(404).json({
       message: "incorrect custom url",
@@ -196,9 +218,43 @@ router.get("/analytics/:customUrl", authMiddleware, async (req, res) => {
     return res.status(200).json({
       totalVisitors: url.clickDetails.length,
       visitorDetails: url.clickDetails,
+      totalContacts: url.contactDetails.length,
+      contactDetails: url.contactDetails,
     });
   } else {
     res.status(401).json({
+      message: "incorrect custom url",
+    });
+  }
+});
+
+router.post("/submit/:customUrl", async (req, res) => {
+  const customUrl = req.params.customUrl;
+  const name = req.body.name;
+  const email = req.body.email;
+  const phoneNumber = req.body.phoneNumber;
+
+  const url = await Url.findOneAndUpdate(
+    {
+      customUrl: customUrl,
+    },
+    {
+      $push: {
+        contactDetails: {
+          name: name,
+          email: email,
+          phoneNumber: phoneNumber,
+        },
+      },
+    }
+  );
+
+  if (url) {
+    res.status(200).json({
+      message: "contact details added",
+    });
+  } else {
+    res.status(404).json({
       message: "incorrect custom url",
     });
   }
