@@ -36,10 +36,6 @@ const urlSchema = new schema(
         timestamp: {
           type: Number,
         },
-      },
-    ],
-    contactDetails: [
-      {
         name: {
           type: String,
         },

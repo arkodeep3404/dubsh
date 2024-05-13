@@ -165,18 +165,9 @@ router.delete("/url", authMiddleware, async (req, res) => {
 router.get("/redirect/:customUrl", async (req, res) => {
   const customUrl = req.params.customUrl;
 
-  const url = await Url.findOneAndUpdate(
-    {
-      customUrl: customUrl,
-    },
-    {
-      $push: {
-        clickDetails: {
-          timestamp: Date.now(),
-        },
-      },
-    }
-  );
+  const url = await Url.findOne({
+    customUrl: customUrl,
+  });
 
   if (url) {
     res.redirect(process.env.FRONTEND_URL + "collect/" + url.customUrl);
@@ -218,8 +209,6 @@ router.get("/analytics/:customUrl", authMiddleware, async (req, res) => {
     return res.status(200).json({
       totalVisitors: url.clickDetails.length,
       visitorDetails: url.clickDetails,
-      totalContacts: url.contactDetails.length,
-      contactDetails: url.contactDetails,
     });
   } else {
     res.status(401).json({
@@ -240,7 +229,8 @@ router.post("/submit/:customUrl", async (req, res) => {
     },
     {
       $push: {
-        contactDetails: {
+        clickDetails: {
+          timestamp: Date.now(),
           name: name,
           email: email,
           phoneNumber: phoneNumber,
