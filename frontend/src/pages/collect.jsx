@@ -19,7 +19,8 @@ export default function CollectDetails() {
     firstFetch();
   }, []);
 
-  async function CollectDetails(final) {
+  async function CollectDetails(final, e) {
+    e.preventDefault();
     const response = await axios.post(
       import.meta.env.VITE_BACKEND_URL + "api/v1/account/submit/" + customUrl,
       {
@@ -38,7 +39,7 @@ export default function CollectDetails() {
         Please enter your details to continue
       </div>
       <div className="flex items-center justify-between">
-        <div>
+        <form onSubmit={(e) => CollectDetails(Final, e)}>
           <input
             required
             type="text"
@@ -61,12 +62,12 @@ export default function CollectDetails() {
             onChange={(e) => setNumber(e.target.value)}
           />
           <button
-            onClick={() => CollectDetails(Final)}
+            type="submit"
             className="m-3 middle none center rounded-lg bg-pink-500 py-3 px-6 font-sans text-xs font-bold uppercase text-white shadow-md shadow-pink-500/20 transition-all hover:shadow-lg hover:shadow-pink-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
           >
             Submit
           </button>
-        </div>
+        </form>
       </div>
     </>
   );
