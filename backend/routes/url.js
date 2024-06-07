@@ -98,8 +98,8 @@ router.post("/url", authMiddleware, async (req, res) => {
   }
 
   if (!req.body.customUrl) {
-    const uid = [...Array(10)]
-      .map(() => Math.random().toString(36)[2])
+    const uid = [...Array(5)]
+      .map(() => "abcdefghijklmnopqrstuvwxyz"[Math.floor(Math.random() * 26)])
       .join("");
 
     const existingUid = await Url.findOne({

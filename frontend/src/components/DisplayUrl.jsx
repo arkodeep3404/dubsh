@@ -22,30 +22,10 @@ export default function DisplayUrl() {
       setUrlList(response.data.urls);
     }
     firstFetch();
-  }, []);
-
-  useEffect(() => {
-    const timeoutValue = setTimeout(async () => {
-      const response = await axios.get(
-        import.meta.env.VITE_BACKEND_URL +
-          "api/v1/account/urls?filter=" +
-          Filter,
-        {
-          headers: {
-            authorization: "Bearer " + localStorage.getItem("url_token"),
-          },
-        }
-      );
-      setUrlList(response.data.urls);
-    }, 1000);
-
-    return () => {
-      clearTimeout(timeoutValue);
-    };
   }, [UrlList, Filter]);
 
-  function deleteUrl(ID) {
-    axios.delete(
+  async function deleteUrl(ID) {
+    await axios.delete(
       import.meta.env.VITE_BACKEND_URL + "api/v1/account/url?urlId=" + ID,
       {
         headers: {
@@ -53,6 +33,16 @@ export default function DisplayUrl() {
         },
       }
     );
+
+    const response = await axios.get(
+      import.meta.env.VITE_BACKEND_URL + "api/v1/account/urls?filter=" + Filter,
+      {
+        headers: {
+          authorization: "Bearer " + localStorage.getItem("url_token"),
+        },
+      }
+    );
+    setUrlList(response.data.urls);
   }
 
   function openUrl(customUrl) {
