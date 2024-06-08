@@ -22,7 +22,7 @@ export default function DisplayUrl() {
       setUrlList(response.data.urls);
     }
     firstFetch();
-  }, [UrlList, Filter]);
+  }, [Filter]);
 
   async function deleteUrl(ID) {
     await axios.delete(
